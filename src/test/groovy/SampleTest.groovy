@@ -9,7 +9,7 @@ import org.openqa.selenium.Keys
  * をベースに一部改変
  */
 @RunWith(JUnit4)
-public class sampleTest extends GebReportingTest {
+public class SampleTest extends GebReportingTest {
 
     @Test
     public void googleSuggestTest() {
