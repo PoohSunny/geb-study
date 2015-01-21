@@ -1,11 +1,11 @@
 import geb.junit4.GebReportingTest
 import org.junit.*
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4;
-import org.openqa.selenium.Keys;
+import org.junit.runners.JUnit4
+import org.openqa.selenium.Keys
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*
+import static org.hamcrest.CoreMatchers.*
 
 /**
  * http://docs.seleniumhq.org/docs/03_webdriver.jsp#introducing-the-selenium-webdriver-api-by-example
@@ -17,25 +17,25 @@ public class sampleTest extends GebReportingTest {
     @Test
     public void googleSuggestTest() {
         // Googleのページへ遷移
-        go "http://www.google.com";
+        go "http://www.google.com"
 
         // nameからtext inputのエレメントを探す
-        def element = $("input", name: "q");
+        def element = $("input", name: "q")
 
         // 検索するために何か入力
-        element << "Cheese!";
+        element << "Cheese!"
 
         // ページのタイトルをチェック
-        assertThat(driver.getTitle(), is("Google"));
+        assertThat(driver.getTitle(), is("Google"))
 
         // フォームをサブミット。(ここではエンターキーの入力で代替）
-        element << Keys.ENTER;
+        element << Keys.ENTER
 
         // Google検索はJavaScriptで動的に表示されます
         // ページがロードされるのを待ちます。タイムアウトは10秒(GebConfigで変更可能)
-        waitFor { title.toLowerCase().startsWith("cheese!"); }
+        waitFor { title.toLowerCase().startsWith("cheese!") }
 
         // "Cheese!"から始まる文字が表示されているべき
-        assertThat(title, startsWith("Cheese!"));
+        assertThat(title, startsWith("Cheese!"))
     }
 }
