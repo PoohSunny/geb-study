@@ -5,7 +5,6 @@ import org.junit.runners.JUnit4;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,13 +17,6 @@ import static org.hamcrest.CoreMatchers.*;
  */
 @RunWith(JUnit4)
 public class sampleTest extends GebReportingTest {
-
-    WebDriver driver;
-
-    @Before
-    public void setUp() {
-        driver = new FirefoxDriver();
-    }
 
     @Test
     public void googleSuggestTest() {
@@ -39,11 +31,11 @@ public class sampleTest extends GebReportingTest {
         // 検索するために何か入力
         element.sendKeys("Cheese!");
 
-        // フォームをサブミット。WebDriverはエレメントからフォームを見つけてくれます。
-        element.submit();
-
         // ページのタイトルをチェック
         assertThat(driver.getTitle(), is("Google"));
+
+        // フォームをサブミット。WebDriverはエレメントからフォームを見つけてくれます。
+        element.submit();
 
         // Google検索はJavaScriptで動的に表示されます
         // ページがロードされるのを待ちます。タイムアウトは10秒
@@ -54,13 +46,6 @@ public class sampleTest extends GebReportingTest {
         });
 
         // "Cheese!"から始まる文字が表示されているべき
-        assertThat(driver.getTitle(), startsWith("Cheese!!"));
+        assertThat(driver.getTitle(), startsWith("Cheese!"));
     }
-
-    @After
-    public void tearDown() {
-        // ブラウザを閉じる
-        driver.quit();
-    }
-
 }
