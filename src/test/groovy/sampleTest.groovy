@@ -26,7 +26,7 @@ public class sampleTest extends GebReportingTest {
         element << "Cheese!"
 
         // ページのタイトルをチェック
-        assertThat(driver.getTitle(), is("Google"))
+        assertThat(title, is("Google"))
 
         // フォームをサブミット。(ここではエンターキーの入力で代替）
         element << Keys.ENTER
