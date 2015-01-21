@@ -1,0 +1,27 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+ext {
+  // The drivers we want to use
+  drivers = ["firefox", "chrome"]
+
+  ext {
+    seleniumVersion = '2.43.1'
+    chromeDriverVersion = '2.10'
+    junitVersion = '4.11'
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile group: 'junit', name: 'junit', version: "$junitVersion"
+  testCompile "org.seleniumhq.selenium:selenium-java:$seleniumVersion"
+  // Drivers
+  testCompile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+  testCompile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+}
