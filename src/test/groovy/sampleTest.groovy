@@ -39,6 +39,6 @@ public class sampleTest extends GebReportingTest {
         waitFor { title.toLowerCase().startsWith("cheese!"); }
 
         // "Cheese!"から始まる文字が表示されているべき
-        assertThat(driver.getTitle(), startsWith("Cheese!"));
+        assertThat(title, startsWith("Cheese!"));
     }
 }
