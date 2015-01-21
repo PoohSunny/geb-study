@@ -1,6 +1,9 @@
-apply plugin: 'java'
+plugins {
+  id 'java'
+  id 'idea'
+  id 'eclipse'
+}
 
-sourceCompatibility = 1.5
 version = '1.0'
 
 ext {
@@ -11,8 +14,13 @@ ext {
     seleniumVersion = '2.43.1'
     chromeDriverVersion = '2.10'
     junitVersion = '4.11'
+    jdkVersion = JavaVersion.VERSION_1_5
   }
 }
+
+sourceCompatibility = targetCompatibility = jdkVersion
+
+tasks.withType(AbstractCompile) each { it.options.encoding = 'UTF-8' }
 
 repositories {
   mavenCentral()
@@ -24,4 +32,27 @@ dependencies {
   // Drivers
   testCompile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
   testCompile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+}
+
+wrapper {
+  gradleVersion = 2.2
+}
+
+eclipse {
+  jdt {
+    sourceCompatibility = jdkVersion
+    targetCompatibility = jdkVersion
+  }
+  classpath {
+    downloadSources = true
+    downloadJavadoc = true
+  }
+}
+
+idea {
+  project {
+    jdkName = jdkVersion
+    languageLevel = jdkVersion
+    vcs = "Git"
+  }
 }
