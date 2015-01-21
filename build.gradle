@@ -35,6 +35,7 @@ dependencies {
   }
   testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
   testCompile "org.gebish:geb-junit4:$gebVersion"
+  testCompile "org.gebish:geb-spock:$gebVersion"
   testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
 
   // Drivers
