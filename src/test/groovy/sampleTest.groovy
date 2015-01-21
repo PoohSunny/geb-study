@@ -21,9 +21,7 @@ public class sampleTest extends GebReportingTest {
     @Test
     public void googleSuggestTest() {
         // Googleのページへ遷移
-        driver.get("http://www.google.com");
-        // 他のやり方として、以下のように記述することもできます
-        // driver.navigate().to("http://www.google.com");
+        go "http://www.google.com";
 
         // nameからtext inputのエレメントを探す
         WebElement element = driver.findElement(By.name("q"));
