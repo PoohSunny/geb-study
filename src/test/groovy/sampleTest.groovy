@@ -4,9 +4,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.openqa.selenium.Keys
 
-import static org.hamcrest.MatcherAssert.*
-import static org.hamcrest.CoreMatchers.*
-
 /**
  * http://docs.seleniumhq.org/docs/03_webdriver.jsp#introducing-the-selenium-webdriver-api-by-example
  * をベースに一部改変
@@ -26,7 +23,7 @@ public class sampleTest extends GebReportingTest {
         element << "Cheese!"
 
         // ページのタイトルをチェック
-        assertThat(title, is("Google"))
+        assert title == "Google"
 
         // フォームをサブミット。(ここではエンターキーの入力で代替）
         element << Keys.ENTER
@@ -36,6 +33,6 @@ public class sampleTest extends GebReportingTest {
         waitFor { title.toLowerCase().startsWith("cheese!") }
 
         // "Cheese!"から始まる文字が表示されているべき
-        assertThat(title, startsWith("Cheese!"))
+        assert title.startsWith("Cheese!")
     }
 }
