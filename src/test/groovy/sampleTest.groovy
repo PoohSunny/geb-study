@@ -2,9 +2,6 @@ import geb.junit4.GebReportingTest
 import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.Keys;
 
 import static org.hamcrest.MatcherAssert.*;
