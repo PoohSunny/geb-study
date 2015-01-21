@@ -35,12 +35,8 @@ public class sampleTest extends GebReportingTest {
         element << Keys.ENTER;
 
         // Google検索はJavaScriptで動的に表示されます
-        // ページがロードされるのを待ちます。タイムアウトは10秒
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().toLowerCase().startsWith("cheese!");
-            }
-        });
+        // ページがロードされるのを待ちます。タイムアウトは10秒(GebConfigで変更可能)
+        waitFor { title.toLowerCase().startsWith("cheese!"); }
 
         // "Cheese!"から始まる文字が表示されているべき
         assertThat(driver.getTitle(), startsWith("Cheese!"));
