@@ -2,11 +2,10 @@ import geb.junit4.GebReportingTest
 import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.Keys;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -24,16 +23,16 @@ public class sampleTest extends GebReportingTest {
         go "http://www.google.com";
 
         // nameからtext inputのエレメントを探す
-        WebElement element = driver.findElement(By.name("q"));
+        def element = $("input", name: "q");
 
         // 検索するために何か入力
-        element.sendKeys("Cheese!");
+        element << "Cheese!";
 
         // ページのタイトルをチェック
         assertThat(driver.getTitle(), is("Google"));
 
-        // フォームをサブミット。WebDriverはエレメントからフォームを見つけてくれます。
-        element.submit();
+        // フォームをサブミット。(ここではエンターキーの入力で代替）
+        element << Keys.ENTER;
 
         // Google検索はJavaScriptで動的に表示されます
         // ページがロードされるのを待ちます。タイムアウトは10秒
