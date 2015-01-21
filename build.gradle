@@ -1,22 +1,25 @@
-plugins {
-  id 'java'
-  id 'idea'
-  id 'eclipse'
-}
+import org.apache.tools.ant.taskdefs.condition.Os
 
 version = '1.0'
 
 ext {
   // The drivers we want to use
-  drivers = ["firefox", "chrome"]
+  drivers = ["firefox", "chrome", "phantomJs"]
 
   ext {
+    jdkVersion = JavaVersion.VERSION_1_5
+    groovyVersion = '2.3.6'
+    gebVersion = '0.10.0'
     seleniumVersion = '2.43.1'
     chromeDriverVersion = '2.10'
-    junitVersion = '4.11'
-    jdkVersion = JavaVersion.VERSION_1_5
+    phantomJsVersion = '1.9.7'
   }
 }
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply from: "gradle/osSpecificDownloads.gradle"
 
 sourceCompatibility = targetCompatibility = jdkVersion
 
@@ -27,11 +30,19 @@ repositories {
 }
 
 dependencies {
-  testCompile group: 'junit', name: 'junit', version: "$junitVersion"
-  testCompile "org.seleniumhq.selenium:selenium-java:$seleniumVersion"
+  testCompile("org.spockframework:spock-core:0.7-groovy-2.0") {
+    exclude group: "org.codehaus.groovy"
+  }
+  testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+  testCompile "org.gebish:geb-junit4:$gebVersion"
+  testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+
   // Drivers
   testCompile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
   testCompile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+  testCompile("com.github.detro.ghostdriver:phantomjsdriver:1.1.0") {
+    transitive = false
+  }
 }
 
 wrapper {
@@ -55,4 +66,40 @@ idea {
     languageLevel = jdkVersion
     vcs = "Git"
   }
+}
+
+drivers.each { driver ->
+  task "${driver}Test"(type: Test) {
+    reports {
+      html.destination = reporting.file("$name/tests")
+      junitXml.destination = file("$buildDir/test-results/$name")
+    }
+
+    outputs.upToDateWhen { false }  // Always run tests
+
+    systemProperty "geb.build.reportsDir", reporting.file("$name/geb")
+    systemProperty "geb.env", driver
+
+    // If you wanted to set the baseUrl in your build…
+    // systemProperty "geb.build.baseUrl", "http://myapp.com"
+  }
+}
+
+chromeTest {
+  dependsOn unzipChromeDriver
+
+  def chromedriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "chromedriver.exe" : "chromedriver"
+  systemProperty "webdriver.chrome.driver", new File(unzipChromeDriver.outputs.files.singleFile, chromedriverFilename).absolutePath
+}
+
+phantomJsTest {
+  dependsOn unzipPhantomJs
+
+  def phantomJsFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "phantomjs.exe" : "bin/phantomjs"
+  systemProperty "phantomjs.binary.path", new File(unzipPhantomJs.outputs.files.singleFile, phantomJsFilename).absolutePath
+}
+
+test {
+  dependsOn drivers.collect { tasks["${it}Test"] }
+  enabled = false
 }

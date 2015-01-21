@@ -1,4 +1,7 @@
-import org.junit.*;
+import geb.junit4.GebReportingTest
+import org.junit.*
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,7 +16,8 @@ import static org.hamcrest.CoreMatchers.*;
  * http://docs.seleniumhq.org/docs/03_webdriver.jsp#introducing-the-selenium-webdriver-api-by-example
  * をベースに一部改変
  */
-public class sampleTest {
+@RunWith(JUnit4)
+public class sampleTest extends GebReportingTest {
 
     WebDriver driver;
 
@@ -50,7 +54,7 @@ public class sampleTest {
         });
 
         // "Cheese!"から始まる文字が表示されているべき
-        assertThat(driver.getTitle(), startsWith("Cheese!"));
+        assertThat(driver.getTitle(), startsWith("Cheese!!"));
     }
 
     @After
